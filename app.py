@@ -1,5 +1,5 @@
 import streamlit as st
-import pickle
+import gzip, pickle
 import pandas as pd
 import requests
 import time
@@ -125,8 +125,8 @@ def recommend(movie):
 # --------------------------- LOAD DATA --------------------------- #
 movies_dict = pickle.load(open("movie_dict.pkl","rb"))
 movies = pd.DataFrame(movies_dict)
-similarity = pickle.load(open("similarity.pkl","rb"))
-
+with gzip.open("similarity.pkl.gz", "rb") as f:
+    similarity = pickle.load(f)
 # --------------------------- UI --------------------------- #
 st.markdown("<h1>🎬 Movie Recommender – Hotstar Style</h1>", unsafe_allow_html=True)
 st.markdown("<p class='subtitle'>Your personalized movie zone, styled like Disney+ Hotstar 💙</p>", unsafe_allow_html=True)
